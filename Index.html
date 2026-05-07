@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Daim Ali — Digital Craftsman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Clash+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ===================== RESET & ROOT ===================== */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#030508;
+  --bg2:#070c14;
+  --surface:rgba(255,255,255,0.03);
+  --surface2:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.07);
+  --border-glow:rgba(0,212,255,0.25);
+  --cyan:#00d4ff;
+  --cyan2:#00f5ff;
+  --violet:#7c3aed;
+  --violet2:#a855f7;
+  --rose:#f43f5e;
+  --gold:#f59e0b;
+  --green:#10b981;
+  --text:#f1f5f9;
+  --muted:#64748b;
+  --muted2:#94a3b8;
+  --grad:linear-gradient(135deg,#00d4ff,#7c3aed);
+  --grad2:linear-gradient(135deg,#7c3aed,#f43f5e);
+  --grad3:linear-gradient(135deg,#f59e0b,#f43f5e);
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* ===================== CANVAS BG ===================== */
+#canvas3d{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* ===================== NOISE OVERLAY ===================== */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:1;
+  opacity:0.4;
+}
+
+.layer{position:relative;z-index:2}
+
+/* ===================== SCROLLBAR ===================== */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--grad);border-radius:3px}
+
+/* ===================== CURSOR ===================== */
+.cursor{
+  position:fixed;
+  width:12px;height:12px;
+  background:var(--cyan);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform 0.1s,width 0.3s,height 0.3s,opacity 0.3s;
+  mix-blend-mode:screen;
+}
+.cursor-ring{
+  position:fixed;
+  width:40px;height:40px;
+  border:1px solid rgba(0,212,255,0.4);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform 0.15s ease,width 0.3s,height 0.3s;
+}
+  /* ===================== NAV ===================== */
+nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  z-index:100;
+  padding:1rem 0;
+}
+nav::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(3,5,8,0.7);
+  backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 2rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+}
+.logo{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700;
+  font-size:1.1rem;
+  letter-spacing:2px;
+  position:relative;
+}
+.logo span{
+  background:var(--grad);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.logo::after{
+  content:'_';
+  animation:blink 1.2s infinite;
+  color:var(--cyan);
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{
+  color:var(--muted2);
+  text-decoration:none;
+  font-size:0.8rem;
+  font-weight:500;
+  letter-spacing:0.5px;
+  transition:color 0.3s;
+  cursor:pointer;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';
+  position:absolute;
+  bottom:-3px;left:0;right:100%;
+  height:1px;
+  background:var(--grad);
+  transition:right 0.3s;
+}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{right:0}
+
+.nav-cta{
+  padding:8px 20px;
+  background:var(--grad);
+  border:none;
+  border-radius:6px;
+  color:#fff;
+  font-size:0.8rem;
+  font-weight:600;
+  cursor:pointer;
+  font-family:'Space Grotesk',sans-serif;
+  letter-spacing:0.5px;
+  transition:opacity 0.3s,transform 0.2s;
+}
+.nav-cta:hover{opacity:0.85;transform:translateY(-1px)}
+
+/* ===================== HERO ===================== */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding:6rem 0 4rem;
+  position:relative;
+}
+.wrap{max-width:1200px;margin:0 auto;padding:0 2rem}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:4rem;
+  align-items:center;
+}
+
+.hero-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 16px;
+  background:rgba(0,212,255,0.05);
+  border:1px solid rgba(0,212,255,0.15);
+  border-radius:100px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.72rem;
+  color:var(--cyan);
+  letter-spacing:1.5px;
+  margin-bottom:1.5rem;
+  animation:fadeSlideUp 0.8s ease both;
+}
+.live-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 8px var(--green);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}
+
+.hero h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(3rem,6vw,5.5rem);
+  font-weight:700;
+  line-height:1.05;
+  letter-spacing:-2px;
+  margin-bottom:1.25rem;
+  animation:fadeSlideUp 0.8s 0.1s ease both;
+}
+.hero h1 .name-grad{
+  background:var(--grad);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  display:block;
+}
+.hero h1 .name-grad2{
+  background:var(--grad2);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  display:block;
+}
+
+.role-ticker{
+  font-family:'JetBrains Mono',monospace;
+  font-size:1rem;
+  color:var(--cyan);
+  margin-bottom:1.5rem;
+  height:24px;
+  overflow:hidden;
+  animation:fadeSlideUp 0.8s 0.2s ease both;
+}
+.ticker-inner{animation:tickerScroll 12s infinite}
+@keyframes tickerScroll{
+  0%,20%{transform:translateY(0)}
+  25%,45%{transform:translateY(-24px)}
+  50%,70%{transform:translateY(-48px)}
+  75%,95%{transform:translateY(-72px)}
+  100%{transform:translateY(0)}
+}
+
+.hero-desc{
+  color:var(--muted2);
+  font-size:1rem;
+  line-height:1.9;
+  max-width:520px;
+  margin-bottom:2rem;
+  animation:fadeSlideUp 0.8s 0.3s ease both;
+}
+.hero-desc b{color:var(--text)}
+  .hero-pills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:2rem;
+  animation:fadeSlideUp 0.8s 0.35s ease both;
+}
+.hpill{
+  padding:5px 14px;
+  border-radius:100px;
+  font-size:0.75rem;
+  font-weight:600;
+  border:1px solid;
+}
+.hp1{background:rgba(0,212,255,0.06);border-color:rgba(0,212,255,0.2);color:var(--cyan)}
+.hp2{background:rgba(124,58,237,0.06);border-color:rgba(124,58,237,0.2);color:var(--violet2)}
+.hp3{background:rgba(244,63,94,0.06);border-color:rgba(244,63,94,0.2);color:var(--rose)}
+.hp4{background:rgba(16,185,129,0.06);border-color:rgba(16,185,129,0.2);color:var(--green)}
+.hp5{background:rgba(245,158,11,0.06);border-color:rgba(245,158,11,0.2);color:var(--gold)}
+
+.hero-btns{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  animation:fadeSlideUp 0.8s 0.4s ease both;
+}
+.btn-primary{
+  padding:13px 28px;
+  background:var(--grad);
+  border:none;
+  border-radius:8px;
+  color:#fff;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:0.9rem;
+  cursor:pointer;
+  transition:transform 0.2s,box-shadow 0.3s;
+  position:relative;
+  overflow:hidden;
+}
+.btn-primary::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);
+  opacity:0;
+  transition:opacity 0.3s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,255,0.25)}
+.btn-primary:hover::before{opacity:1}
+
+.btn-outline{
+  padding:13px 28px;
+  background:transparent;
+  border:1px solid var(--border-glow);
+  border-radius:8px;
+  color:var(--cyan);
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:0.9rem;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+.btn-outline:hover{background:rgba(0,212,255,0.06);box-shadow:0 0 20px rgba(0,212,255,0.1)}
+
+.btn-ghost{
+  padding:13px 28px;
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--muted2);
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:500;
+  font-size:0.9rem;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+.btn-ghost:hover{border-color:rgba(124,58,237,0.4);color:var(--violet2)}
+
+@keyframes fadeSlideUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+  /* ===================== 3D CARD ===================== */
+.hero-card-wrap{
+  perspective:1000px;
+  animation:fadeSlideUp 0.8s 0.5s ease both;
+}
+.hero-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:2.5rem;
+  transform-style:preserve-3d;
+  transition:transform 0.1s;
+  position:relative;
+  overflow:hidden;
+}
+.hero-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at 30% 20%,rgba(0,212,255,0.08),transparent 60%),
+             radial-gradient(ellipse at 70% 80%,rgba(124,58,237,0.08),transparent 60%);
+  border-radius:24px;
+}
+.card-glow{
+  position:absolute;
+  top:-1px;left:-1px;right:-1px;
+  height:2px;
+  background:var(--grad);
+  border-radius:24px 24px 0 0;
+}
+
+.avatar-3d{
+  width:120px;height:120px;
+  border-radius:50%;
+  background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(124,58,237,0.15));
+  border:2px solid rgba(0,212,255,0.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 1.5rem;
+  position:relative;
+  transform:translateZ(20px);
+}
+.avatar-3d::before{
+  content:'';
+  position:absolute;
+  inset:-8px;
+  border-radius:50%;
+  border:1px dashed rgba(0,212,255,0.2);
+  animation:rotateSlow 20s linear infinite;
+}
+.avatar-3d::after{
+  content:'';
+  position:absolute;
+  inset:-16px;
+  border-radius:50%;
+  border:1px dashed rgba(124,58,237,0.15);
+  animation:rotateSlow 35s linear infinite reverse;
+}
+@keyframes rotateSlow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+.av-text{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:2.5rem;
+  font-weight:700;
+  background:var(--grad);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.card-name{
+  text-align:center;
+  font-weight:700;
+  font-size:1.1rem;
+  margin-bottom:4px;
+  transform:translateZ(15px);
+  position:relative;
+}
+.card-loc{
+  text-align:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;
+  color:var(--muted);
+  letter-spacing:1.5px;
+  margin-bottom:1.5rem;
+  transform:translateZ(10px);
+  position:relative;
+}
+
+.stat-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:1.25rem;
+  position:relative;
+  transform:translateZ(10px);
+}
+.sbox{
+  background:rgba(0,0,0,0.3);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px;
+  text-align:center;
+  transition:border-color 0.3s;
+}
+.sbox:hover{border-color:rgba(0,212,255,0.25)}
+.snum{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.6rem;
+  font-weight:700;
+  background:var(--grad);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  display:block;
+}
+.slabel{
+  font-size:0.65rem;
+  color:var(--muted);
+  letter-spacing:1px;
+  margin-top:2px;
+}
+  .online-badge{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;
+  color:var(--green);
+  padding:8px;
+  background:rgba(16,185,129,0.06);
+  border:1px solid rgba(16,185,129,0.15);
+  border-radius:8px;
+  position:relative;
+  transform:translateZ(12px);
+}
+
+/* ===================== FLOATING ORBS ===================== */
+.orb{
+  position:fixed;
+  border-radius:50%;
+  filter:blur(80px);
+  pointer-events:none;
+  z-index:0;
+}
+.orb1{width:500px;height:500px;background:rgba(0,212,255,0.04);top:-10%;left:-5%}
+.orb2{width:400px;height:400px;background:rgba(124,58,237,0.05);bottom:10%;right:-5%}
+.orb3{width:300px;height:300px;background:rgba(244,63,94,0.03);top:50%;left:30%}
+
+/* ===================== SECTIONS ===================== */
+section{padding:5rem 0;position:relative}
+
+.sec-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;
+  color:var(--cyan);
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.sec-label::after{
+  content:'';
+  flex:1;
+  max-width:60px;
+  height:1px;
+  background:var(--grad);
+}
+.sec-title{
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:700;
+  letter-spacing:-1px;
+  margin-bottom:3rem;
+  line-height:1.1;
+}
+.g{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.g2{background:var(--grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.g3{background:var(--grad3);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+.sec-alt{background:rgba(7,12,20,0.7)}
+
+/* ===================== ABOUT ===================== */
+.about-grid{display:grid;grid-template-columns:300px 1fr;gap:4rem;align-items:start}
+
+.about-sidebar{
+  position:sticky;
+  top:6rem;
+}
+.profile-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:2rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  transform-style:preserve-3d;
+}
+.profile-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(0,212,255,0.07),transparent 60%);
+}
+.profile-card-top{
+  position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:var(--grad);
+}
+.profile-av{
+  width:90px;height:90px;
+  border-radius:50%;
+  background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(124,58,237,0.15));
+  border:2px solid rgba(0,212,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1rem;
+  font-size:2rem;
+  font-weight:700;
+  background:var(--grad);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-family:'Space Grotesk',sans-serif;
+  position:relative;
+}
+.profile-name{font-weight:700;font-size:1rem;margin-bottom:3px;position:relative}
+.profile-title{font-size:0.75rem;color:var(--muted);letter-spacing:1px;margin-bottom:1.25rem;position:relative}
+
+.kv-list{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem;position:relative;text-align:left}
+.kv{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(0,0,0,0.3);border-radius:8px;border:1px solid var(--border);font-size:0.78rem}
+.kv-key{color:var(--muted);font-size:0.7rem;letter-spacing:0.5px}
+.kv-val{color:var(--text);font-weight:500}
+
+.cv-btn{
+  width:100%;
+  padding:11px;
+  background:var(--grad);
+  border:none;border-radius:8px;
+  color:#fff;font-family:'Space Grotesk',sans-serif;
+  font-weight:600;font-size:0.85rem;
+  cursor:pointer;transition:opacity 0.3s;
+  position:relative;
+}
+.cv-btn:hover{opacity:0.85}
+
+.about-content p{
+  color:var(--muted2);
+  margin-bottom:1rem;
+  line-height:1.9;
+  font-size:0.95rem;
+}
+.about-content b{color:var(--text)}
+
+.tag-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-top:1.5rem}
+.tag{
+  padding:5px 14px;
+  background:rgba(0,212,255,0.04);
+  border:1px solid rgba(0,212,255,0.12);
+  border-radius:100px;
+  font-size:0.75rem;
+  color:var(--cyan);
+  transition:all 0.3s;
+}
+.tag:hover{background:rgba(0,212,255,0.08);border-color:rgba(0,212,255,0.3)}
+  /* ===================== SKILLS ===================== */
+.skill-tabs{display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap}
+.stab{
+  padding:8px 20px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--muted2);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.8rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.3s;
+  letter-spacing:0.3px;
+}
+.stab.active{
+  background:var(--grad);
+  border-color:transparent;
+  color:#fff;
+}
+.stab:hover:not(.active){border-color:rgba(0,212,255,0.25);color:var(--text)}
+
+.skill-pane{display:none}
+.skill-pane.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+
+.skcard{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:1.25rem;
+  transition:all 0.3s;
+  cursor:default;
+  position:relative;
+  overflow:hidden;
+  transform-style:preserve-3d;
+}
+.skcard::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at 30% 30%,rgba(0,212,255,0.04),transparent);
+  opacity:0;
+  transition:opacity 0.3s;
+}
+.skcard:hover{
+  border-color:rgba(0,212,255,0.3);
+  transform:translateY(-6px) rotateX(3deg);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3),0 0 30px rgba(0,212,255,0.05);
+}
+.skcard:hover::before{opacity:1}
+
+.sk-icon{font-size:1.6rem;margin-bottom:10px;display:block}
+.sk-name{font-weight:600;font-size:0.9rem;margin-bottom:3px}
+.sk-sub{font-size:0.72rem;color:var(--muted);margin-bottom:10px}
+.sk-bar{height:2px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden}
+.sk-fill{height:100%;border-radius:4px;background:var(--grad);position:relative;transition:width 1s ease}
+.sk-fill2{background:var(--grad2)}
+.sk-fill3{background:var(--grad3)}
+
+/* ===================== PROJECTS ===================== */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem}
+
+.pcard{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:2rem;
+  position:relative;
+  overflow:hidden;
+  transition:all 0.4s;
+  transform-style:preserve-3d;
+  cursor:default;
+}
+.pcard::after{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:1px;
+  background:var(--grad);
+  opacity:0.5;
+}
+.pcard.pv{color:var(--violet2)}
+.pcard.pv::after{background:var(--grad2)}
+.pcard.pk::after{background:var(--grad3)}
+
+.pcard:hover{
+  transform:translateY(-8px) rotateX(2deg) rotateY(-1deg);
+  border-color:rgba(0,212,255,0.25);
+  box-shadow:0 30px 60px rgba(0,0,0,0.4),0 0 40px rgba(0,212,255,0.06);
+}
+.pcard.pv:hover{border-color:rgba(124,58,237,0.3);box-shadow:0 30px 60px rgba(0,0,0,0.4),0 0 40px rgba(124,58,237,0.08)}
+.pcard.pk:hover{border-color:rgba(244,63,94,0.3);box-shadow:0 30px 60px rgba(0,0,0,0.4),0 0 40px rgba(244,63,94,0.06)}
+
+.p-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.62rem;
+  color:var(--muted);
+  letter-spacing:2px;
+  margin-bottom:12px;
+}
+.p-title{font-size:1.05rem;font-weight:700;margin-bottom:8px}
+.p-desc{font-size:0.83rem;color:var(--muted2);line-height:1.75;margin-bottom:1.25rem}
+.p-tags{display:flex;flex-wrap:wrap;gap:6px}
+.ptag{
+  padding:3px 10px;
+  border-radius:100px;
+  font-size:0.65rem;
+  font-weight:600;
+  border:1px solid;
+}
+.ptb{background:rgba(0,212,255,0.06);border-color:rgba(0,212,255,0.2);color:var(--cyan)}
+.ptp{background:rgba(124,58,237,0.06);border-color:rgba(124,58,237,0.2);color:var(--violet2)}
+.ptk{background:rgba(244,63,94,0.06);border-color:rgba(244,63,94,0.2);color:var(--rose)}
+.ptg{background:rgba(245,158,11,0.06);border-color:rgba(245,158,11,0.2);color:var(--gold)}
+  /* ===================== CERTS ===================== */
+.ca-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.ca-head{
+  font-size:0.75rem;
+  color:var(--muted2);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:1rem;
+  font-family:'JetBrains Mono',monospace;
+}
+
+.cert-item{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.25rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  transition:all 0.3s;
+  margin-bottom:10px;
+}
+.cert-item:hover{border-color:rgba(0,212,255,0.25);transform:translateX(4px)}
+.cert-ico{
+  width:40px;height:40px;
+  border-radius:10px;
+  background:rgba(0,212,255,0.06);
+  border:1px solid rgba(0,212,255,0.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.cert-name{font-size:0.85rem;font-weight:600;margin-bottom:2px}
+.cert-from{font-size:0.7rem;color:var(--muted)}
+
+.ach-item{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.25rem;
+  background:var(--surface);
+  border:1px solid rgba(124,58,237,0.12);
+  border-radius:12px;
+  transition:all 0.3s;
+  margin-bottom:10px;
+}
+.ach-item:hover{border-color:rgba(124,58,237,0.3);transform:translateX(4px)}
+.ach-num{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.3rem;font-weight:700;
+  background:var(--grad2);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  min-width:50px;
+}
+.ach-text{font-size:0.83rem;color:var(--muted2)}
+.ach-text b{color:var(--text)}
+
+/* ===================== SERVICES ===================== */
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-bottom:2.5rem}
+.svccard{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1.75rem;
+  transition:all 0.4s;
+  position:relative;
+  overflow:hidden;
+  transform-style:preserve-3d;
+}
+.svccard::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at 50% 100%,rgba(0,212,255,0.05),transparent 60%);
+  opacity:0;
+  transition:opacity 0.4s;
+}
+.svccard:hover{
+  border-color:rgba(0,212,255,0.2);
+  transform:translateY(-6px) rotateX(3deg);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+.svccard:hover::before{opacity:1}
+
+.svc-icon{font-size:2rem;margin-bottom:14px;display:block}
+.svc-title{font-weight:700;font-size:0.95rem;margin-bottom:6px}
+.svc-desc{font-size:0.78rem;color:var(--muted2);line-height:1.75;margin-bottom:10px}
+.svc-price{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.75rem;
+  color:var(--cyan);
+  background:rgba(0,212,255,0.06);
+  border:1px solid rgba(0,212,255,0.12);
+  padding:4px 10px;
+  border-radius:6px;
+  display:inline-block;
+}
+
+.cta-card{
+  background:linear-gradient(135deg,rgba(0,212,255,0.05),rgba(124,58,237,0.07));
+  border:1px solid rgba(124,58,237,0.2);
+  border-radius:20px;
+  padding:2.5rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.cta-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:var(--grad);
+}
+.cta-card h3{
+  font-size:1.3rem;font-weight:700;margin-bottom:8px;
+}
+.cta-card p{font-size:0.88rem;color:var(--muted2);margin-bottom:1.5rem}
+.pay-pills{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:1.75rem}
+.pay-pill{
+  padding:5px 14px;
+  background:rgba(16,185,129,0.06);
+  border:1px solid rgba(16,185,129,0.15);
+  border-radius:100px;
+  font-size:0.7rem;
+  color:var(--green);
+  font-weight:600;
+}
+
+/* ===================== CONTACT ===================== */
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:3rem;align-items:start}
+
+.ci{
+  display:flex;align-items:center;gap:12px;
+  padding:1rem 1.25rem;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  margin-bottom:10px;
+  transition:all 0.3s;
+  cursor:pointer;
+}
+.ci:hover{border-color:rgba(0,212,255,0.25);transform:translateX(4px)}
+.ci-ico{
+  width:42px;height:42px;
+  border-radius:10px;
+  background:rgba(0,212,255,0.06);
+  border:1px solid rgba(0,212,255,0.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.ci-label{font-size:0.68rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.ci-val{font-size:0.88rem;font-weight:500;color:var(--text)}
+
+.social-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:1.25rem}
+.sbtn{
+  padding:9px 18px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--muted2);
+  font-size:0.78rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:all 0.3s;
+  font-family:'Space Grotesk',sans-serif;
+  display:flex;align-items:center;gap:7px;
+}
+.sbtn:hover{border-color:rgba(0,212,255,0.3);color:var(--cyan);transform:translateY(-2px)}
+
+.fcard{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:2rem;
+  position:relative;
+  overflow:hidden;
+}
+.fcard::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:var(--grad);
+}
+.fl{
+  display:block;
+  font-size:0.7rem;
+  color:var(--muted);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:6px;
+  font-family:'JetBrains Mono',monospace;
+}
+.fi,.ft{
+  width:100%;
+  padding:11px 16px;
+  background:rgba(0,0,0,0.3);
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:0.88rem;
+  outline:none;
+  transition:border-color 0.3s,box-shadow 0.3s;
+  margin-bottom:14px;
+}
+.fi:focus,.ft:focus{
+  border-color:rgba(0,212,255,0.4);
+  box-shadow:0 0 0 3px rgba(0,212,255,0.06);
+}
+.fi::placeholder,.ft::placeholder{color:var(--muted)}
+.ft{resize:vertical;min-height:100px}
+select.fi{appearance:none;cursor:pointer}
+  /* ===================== FOOTER ===================== */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem 0;
+  position:relative;
+}
+.foot-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+}
+.foot-copy{font-size:0.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.foot-copy b{color:var(--cyan)}
+.foot-links{display:flex;gap:1.5rem}
+.foot-links a{
+  font-size:0.75rem;color:var(--muted);
+  text-decoration:none;transition:color 0.3s;cursor:pointer;
+}
+.foot-links a:hover{color:var(--cyan)}
+
+/* ===================== SCROLL REVEAL ===================== */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity 0.7s ease,transform 0.7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:800px){
+  .hero-grid,.about-grid,.ca-grid,.contact-grid{grid-template-columns:1fr}
+  .hero-card-wrap{display:none}
+  .about-sidebar{position:static}
+}
+@media(max-width:600px){
+  .nav-links{display:none}
+  .hero h1{font-size:2.5rem}
+}
+</style>
+</head>
+<body>
+
+<canvas id="canvas3d"></canvas>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ORBS -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- ==================== NAV ==================== -->
+<nav class="layer">
+  <div class="nav-inner">
+    <div class="logo"><span>MDA</span></div>
+    <div class="nav-links">
+      <a onclick="sc('about')">About</a>
+      <a onclick="sc('skills')">Skills</a>
+      <a onclick="sc('projects')">Projects</a>
+      <a onclick="sc('certs')">Certs</a>
+      <a onclick="sc('services')">Services</a>
+      <a onclick="sc('contact')">Contact</a>
+    </div>
+    <button class="nav-cta" onclick="sc('contact')">Hire Me →</button>
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero layer" id="home">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="live-dot"></span>
+          AVAILABLE FOR WORK · RAWALPINDI, PAKISTAN
+        </div>
+        <h1>
+          <span class="name-grad">Muhammad</span>
+          <span class="name-grad2">Daim Ali</span>
+        </h1>
+        <div class="role-ticker">
+          <div class="ticker-inner">
+            <div>→ Full Stack Web Developer</div>
+            <div>→ UI/UX & Graphic Designer</div>
+            <div>→ Flutter App Developer</div>
+            <div>→ AI & Automation Expert</div>
+          </div>
+        </div>
+        <p class="hero-desc">
+          A digital craftsman from Rawalpindi — I build <b>websites, apps, designs, and AI solutions</b> that deliver real results. Growing businesses through technology is what I do.
+        </p>
+        <div class="hero-pills">
+          <span class="hpill hp1">🌐 Web Dev</span>
+          <span class="hpill hp2">🎨 UI/UX</span>
+          <span class="hpill hp3">📱 Flutter</span>
+          <span class="hpill hp4">🤖 AI Tools</span>
+          <span class="hpill hp5">📣 Social Media</span>
+        </div>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="sc('projects')">View My Work →</button>
+          <button class="btn-outline" onclick="sc('contact')">Let's Talk</button>
+          <button class="btn-ghost" onclick="sc('services')">Services & Pricing</button>
+        </div>
+      </div>
+
+      <div class="hero-card-wrap" id="heroCard">
+        <div class="hero-card" id="card3d">
+          <div class="card-glow"></div>
+          <div class="avatar-3d">
+            <span class="av-text">MDA</span>
+          </div>
+          <div class="card-name">Muhammad Daim Ali</div>
+          <div class="card-loc">📍 RAWALPINDI · PAKISTAN</div>
+          <div class="stat-row">
+            <div class="sbox">
+              <span class="snum">20+</span>
+              <div class="slabel">PROJECTS</div>
+            </div>
+            <div class="sbox">
+              <span class="snum">15+</span>
+              <div class="slabel">CLIENTS</div>
+            </div>
+            <div class="sbox">
+              <span class="snum">5x</span>
+              <div class="slabel">GROWTH</div>
+            </div>
+            <div class="sbox">
+              <span class="snum">100%</span>
+              <div class="slabel">SATISFIED</div>
+            </div>
+          </div>
+          <div class="online-badge">
+            <span class="live-dot"></span>
+            OPEN TO NEW PROJECTS
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ==================== ABOUT ==================== -->
+<section id="about" class="sec-alt layer">
+  <div class="wrap">
+    <div class="sec-label">01 · About</div>
+    <div class="sec-title">Who Am <span class="g">I?</span></div>
+    <div class="about-grid reveal">
+      <div class="about-sidebar">
+        <div class="profile-card">
+          <div class="profile-card-top"></div>
+          <div class="profile-av">MDA</div>
+          <div class="profile-name">Muhammad Daim Ali</div>
+          <div class="profile-title">DIGITAL CRAFTSMAN · FREELANCER</div>
+          <div class="kv-list">
+            <div class="kv"><span class="kv-key">📍 Location</span><span class="kv-val">Rawalpindi</span></div>
+            <div class="kv"><span class="kv-key">🎓 Education</span><span class="kv-val">University, RWP</span></div>
+            <div class="kv"><span class="kv-key">💼 Experience</span><span class="kv-val">2+ Years</span></div>
+            <div class="kv"><span class="kv-key">💬 Languages</span><span class="kv-val">Urdu, English</span></div>
+            <div class="kv"><span class="kv-key">⚡ Status</span><span class="kv-val" style="color:var(--green)">Available</span></div>
+          </div>
+          <button class="cv-btn">📄 Download CV</button>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <p>I'm <b>Muhammad Daim Ali</b> — a passionate digital developer from Rawalpindi. I have a deep love for technology and I turn that passion into real, tangible business value for my clients.</p>
+        <p>I have extensive experience in <b>web development, app development, graphic design, and social media marketing</b>. I don't just do the work — I <b>deliver results</b> that drive actual growth for my clients.</p>
+        <p>I understand the local Pakistani market well — <b>Easypaisa, JazzCash</b>, local content needs, and the business landscape of Rawalpindi & Islamabad. I work to international standards within a Pakistani context.</p>
+        <p>My goal is to give every client a digital presence that truly <b>takes their business forward</b> — professionally, effectively, and affordably.</p>
+        <div class="tag-cloud">
+          <span class="tag">React.js</span>
+          <span class="tag">WordPress</span>
+          <span class="tag">Flutter</span>
+          <span class="tag">Figma</span>
+          <span class="tag">Python</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">Photoshop</span>
+          <span class="tag">Meta Ads</span>
+          <span class="tag">SEO</span>
+          <span class="tag">ChatGPT API</span>
+          <span class="tag">WooCommerce</span>
+          <span class="tag">Canva Pro</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SKILLS ==================== -->
+<section id="skills" class="layer">
+  <div class="wrap">
+    <div class="sec-label">02 · Skills</div>
+    <div class="sec-title">What I <span class="g2">Master</span></div>
+    <div class="skill-tabs reveal">
+      <button class="stab active" onclick="showTab('web',this)">🌐 Web Dev</button>
+      <button class="stab" onclick="showTab('design',this)">🎨 Design</button>
+      <button class="stab" onclick="showTab('app',this)">📱 App Dev</button>
+      <button class="stab" onclick="showTab('social',this)">📣 Marketing</button>
+    </div>
+    <div id="tab-web" class="skill-pane active reveal">
+      <div class="skcard"><div class="sk-icon">⚛</div><div class="sk-name">React.js</div><div class="sk-sub">Frontend Framework</div><div class="sk-bar"><div class="sk-fill" style="width:85%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🔧</div><div class="sk-name">WordPress</div><div class="sk-sub">CMS & WooCommerce</div><div class="sk-bar"><div class="sk-fill" style="width:95%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🌐</div><div class="sk-name">HTML / CSS / JS</div><div class="sk-sub">Core Web Stack</div><div class="sk-bar"><div class="sk-fill" style="width:90%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🐘</div><div class="sk-name">PHP / MySQL</div><div class="sk-sub">Backend Development</div><div class="sk-bar"><div class="sk-fill" style="width:75%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🔥</div><div class="sk-name">Firebase</div><div class="sk-sub">Realtime Database</div><div class="sk-bar"><div class="sk-fill" style="width:78%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">▲</div><div class="sk-name">Vercel / Netlify</div><div class="sk-sub">Deployment & Hosting</div><div class="sk-bar"><div class="sk-fill" style="width:88%"></div></div></div>
+    </div>
+    <div id="tab-design" class="skill-pane reveal">
+      <div class="skcard"><div class="sk-icon">🎭</div><div class="sk-name">Figma</div><div class="sk-sub">UI/UX Design</div><div class="sk-bar"><div class="sk-fill sk-fill2" style="width:87%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🖼</div><div class="sk-name">Photoshop</div><div class="sk-sub">Photo Editing</div><div class="sk-bar"><div class="sk-fill sk-fill2" style="width:82%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">✏</div><div class="sk-name">Illustrator</div><div class="sk-sub">Vector Design</div><div class="sk-bar"><div class="sk-fill sk-fill2" style="width:75%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🌈</div><div class="sk-name">Canva Pro</div><div class="sk-sub">Quick Creatives</div><div class="sk-bar"><div class="sk-fill sk-fill2" style="width:95%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🎬</div><div class="sk-name">Premiere / CapCut</div><div class="sk-sub">Video Editing</div><div class="sk-bar"><div class="sk-fill sk-fill2" style="width:70%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🖋</div><div class="sk-name">Logo Design</div><div class="sk-sub">Brand Identity</div><div class="sk-bar"><div class="sk-fill sk-fill2" style="width:80%"></div></div></div>
+    </div>
+    <div id="tab-app" class="skill-pane reveal">
+      <div class="skcard"><div class="sk-icon">💙</div><div class="sk-name">Flutter</div><div class="sk-sub">Cross-platform Apps</div><div class="sk-bar"><div class="sk-fill" style="width:78%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🐍</div><div class="sk-name">Python</div><div class="sk-sub">Scripting & Automation</div><div class="sk-bar"><div class="sk-fill" style="width:72%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">📱</div><div class="sk-name">React Native</div><div class="sk-sub">Mobile Apps</div><div class="sk-bar"><div class="sk-fill" style="width:65%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🔥</div><div class="sk-name">Firebase</div><div class="sk-sub">App Backend</div><div class="sk-bar"><div class="sk-fill" style="width:75%"></div></div></div>
+    </div>
+    <div id="tab-social" class="skill-pane reveal">
+      <div class="skcard"><div class="sk-icon">📸</div><div class="sk-name">Instagram Marketing</div><div class="sk-sub">Content & Growth</div><div class="sk-bar"><div class="sk-fill sk-fill3" style="width:90%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🤖</div><div class="sk-name">ChatGPT / AI Tools</div><div class="sk-sub">Automation & Content</div><div class="sk-bar"><div class="sk-fill sk-fill3" style="width:88%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">📊</div><div class="sk-name">Meta Ads Manager</div><div class="sk-sub">Paid Advertising</div><div class="sk-bar"><div class="sk-fill sk-fill3" style="width:72%"></div></div></div>
+      <div class="skcard"><div class="sk-icon">🔍</div><div class="sk-name">SEO / Analytics</div><div class="sk-sub">Traffic Growth</div><div class="sk-bar"><div class="sk-fill sk-fill3" style="width:68%"></div></div></div>
+    </div>
+  </div>
+</section>
+<!-- ==================== PROJECTS ==================== -->
+<section id="projects" class="sec-alt layer">
+  <div class="wrap">
+    <div class="sec-label">03 · Projects</div>
+    <div class="sec-title">Featured <span class="g">Work</span></div>
+    <div class="proj-grid reveal">
+      <div class="pcard">
+        <div class="p-num">WEB · 01</div>
+        <div class="p-title">E-Commerce Store</div>
+        <div class="p-desc">Pakistan-based online store with shopping cart, product management, Easypaisa/JazzCash integration, and a fully mobile-friendly design.</div>
+        <div class="p-tags"><span class="ptag ptb">WordPress</span><span class="ptag ptb">WooCommerce</span><span class="ptag ptb">PHP</span></div>
+      </div>
+      <div class="pcard pv">
+        <div class="p-num">DESIGN · 01</div>
+        <div class="p-title">Brand Identity Pack</div>
+        <div class="p-desc">Logo, business card, social media kit, and letterhead — a complete branding package delivered for a local business.</div>
+        <div class="p-tags"><span class="ptag ptp">Figma</span><span class="ptag ptp">Illustrator</span><span class="ptag ptp">Photoshop</span></div>
+      </div>
+      <div class="pcard">
+        <div class="p-num">APP · 01</div>
+        <div class="p-title">Service Booking App</div>
+        <div class="p-desc">A Flutter app for a local service business — featuring booking, payments, and real-time order tracking. Available on both Android & iOS.</div>
+        <div class="p-tags"><span class="ptag ptb">Flutter</span><span class="ptag ptb">Firebase</span><span class="ptag ptb">Dart</span></div>
+      </div>
+      <div class="pcard pk">
+        <div class="p-num">SOCIAL · 01</div>
+        <div class="p-title">Social Media Campaign</div>
+        <div class="p-desc">A full 3-month Instagram management campaign — content calendar, graphics, reels, and 5x growth in followers.</div>
+        <div class="p-tags"><span class="ptag ptk">Instagram</span><span class="ptag ptk">Canva</span><span class="ptag ptk">Meta Ads</span></div>
+      </div>
+      <div class="pcard">
+        <div class="p-num">WEB · 02</div>
+        <div class="p-title">Portfolio Website</div>
+        <div class="p-desc">Custom dark futuristic portfolio for a freelancer — animations, smooth scroll, contact form, blazing fast.</div>
+        <div class="p-tags"><span class="ptag ptb">React</span><span class="ptag ptb">Tailwind</span><span class="ptag ptb">Vercel</span></div>
+      </div>
+      <div class="pcard pv">
+        <div class="p-num">AI · 01</div>
+        <div class="p-title">AI Content Bot</div>
+        <div class="p-desc">An automation tool built with Python + ChatGPT API that generates daily social media captions, posts, and content ideas.</div>
+        <div class="p-tags"><span class="ptag ptp">Python</span><span class="ptag ptp">OpenAI API</span><span class="ptag ptp">Automation</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CERTS ==================== -->
+<section id="certs" class="layer">
+  <div class="wrap">
+    <div class="sec-label">04 · Certifications & Achievements</div>
+    <div class="sec-title">Proof of <span class="g3">Excellence</span></div>
+    <div class="ca-grid reveal">
+      <div>
+        <div class="ca-head">🏅 Certificates</div>
+        <div class="cert-item"><div class="cert-ico">🌐</div><div><div class="cert-name">Web Development Bootcamp</div><div class="cert-from">Coursera / Udemy · 2024</div></div></div>
+        <div class="cert-item"><div class="cert-ico">🎨</div><div><div class="cert-name">UI/UX Design Certificate</div><div class="cert-from">Google / Coursera · 2024</div></div></div>
+        <div class="cert-item"><div class="cert-ico">🤖</div><div><div class="cert-name">AI & ChatGPT Fundamentals</div><div class="cert-from">Microsoft Learn · 2024</div></div></div>
+        <div class="cert-item"><div class="cert-ico">📱</div><div><div class="cert-name">Flutter App Development</div><div class="cert-from">Udemy · 2023</div></div></div>
+        <div class="cert-item"><div class="cert-ico">📣</div><div><div class="cert-name">Digital Marketing</div><div class="cert-from">Meta Blueprint · 2023</div></div></div>
+        <div class="cert-item"><div class="cert-ico">🎓</div><div><div class="cert-name">Degree / Qualification</div><div class="cert-from">University · Rawalpindi</div></div></div>
+      </div>
+      <div>
+        <div class="ca-head">🏆 Achievements</div>
+        <div class="ach-item"><div class="ach-num">20+</div><div class="ach-text"><b>Projects Completed</b> across web, app, design & social media</div></div>
+        <div class="ach-item"><div class="ach-num">15+</div><div class="ach-text"><b>Happy Clients</b> from Islamabad, Rawalpindi & online</div></div>
+        <div class="ach-item"><div class="ach-num">5x</div><div class="ach-text"><b>Social Media Growth</b> — multiplied clients' followers by 5x</div></div>
+        <div class="ach-item"><div class="ach-num">100%</div><div class="ach-text"><b>Client Satisfaction Rate</b> — not a single complaint to date</div></div>
+        <div class="ach-item"><div class="ach-num">3+</div><div class="ach-text"><b>GitHub Repositories</b> — open source contributions</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ==================== SERVICES ==================== -->
+<section id="services" class="sec-alt layer">
+  <div class="wrap">
+    <div class="sec-label">05 · Services</div>
+    <div class="sec-title">What I <span class="g">Offer</span></div>
+    <div class="svc-grid reveal">
+      <div class="svccard"><span class="svc-icon">🌐</span><div class="svc-title">Website Design</div><div class="svc-desc">Professional, fast, mobile-friendly websites. Landing pages, business sites, and portfolios.</div><div class="svc-price">From Rs. 10,000</div></div>
+      <div class="svccard"><span class="svc-icon">🛒</span><div class="svc-title">E-Commerce Store</div><div class="svc-desc">Online store with products, cart, and Pakistani payment gateways — Easypaisa, JazzCash, and Card.</div><div class="svc-price">From Rs. 20,000</div></div>
+      <div class="svccard"><span class="svc-icon">📱</span><div class="svc-title">App Development</div><div class="svc-desc">Android & iOS apps built with Flutter — service booking, portfolio apps, and simple tools.</div><div class="svc-price">From Rs. 30,000</div></div>
+      <div class="svccard"><span class="svc-icon">🎨</span><div class="svc-title">Graphic Design</div><div class="svc-desc">Logo, banner, brochure, business card, social media kit — complete brand identity packages.</div><div class="svc-price">From Rs. 3,000</div></div>
+      <div class="svccard"><span class="svc-icon">📣</span><div class="svc-title">Social Media Handling</div><div class="svc-desc">Instagram, Facebook, TikTok — content creation, reels, ads, and scheduling. Monthly packages available.</div><div class="svc-price">From Rs. 8,000/mo</div></div>
+      <div class="svccard"><span class="svc-icon">🤖</span><div class="svc-title">AI Solutions</div><div class="svc-desc">ChatGPT automation, AI content tools, and chatbot integration — leveraging technology to grow your business.</div><div class="svc-price">From Rs. 15,000</div></div>
+      <div class="svccard"><span class="svc-icon">🔧</span><div class="svc-title">Website Maintenance</div><div class="svc-desc">Ongoing updates, speed optimization, and bug fixing — your website handled on a monthly basis.</div><div class="svc-price">From Rs. 5,000/mo</div></div>
+      <div class="svccard"><span class="svc-icon">📊</span><div class="svc-title">SEO & Marketing</div><div class="svc-desc">Get found on Google — keyword research, on-page SEO, backlinks, and detailed performance reports.</div><div class="svc-price">From Rs. 7,000/mo</div></div>
+    </div>
+    <div class="cta-card reveal">
+      <h3>💬 Any Project In Mind — <span class="g">Let's Talk</span></h3>
+      <p>Submit your order — I'll get back to you directly via WhatsApp. Payment available through multiple easy methods.</p>
+      <div class="pay-pills">
+        <span class="pay-pill">✓ Easypaisa</span>
+        <span class="pay-pill">✓ JazzCash</span>
+        <span class="pay-pill">✓ Bank Transfer</span>
+        <span class="pay-pill">✓ Cash (RWP/ISB)</span>
+      </div>
+      <button class="btn-primary" style="font-size:0.95rem;padding:14px 32px" onclick="sc('contact')">Submit Your Order — I'll Contact You on WhatsApp ✓</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONTACT ==================== -->
+<section id="contact" class="layer">
+  <div class="wrap">
+    <div class="sec-label">06 · Contact</div>
+    <div class="sec-title">Let's <span class="g2">Connect</span></div>
+    <div class="contact-grid reveal">
+      <div>
+        <p style="color:var(--muted2);font-size:0.9rem;line-height:1.9;margin-bottom:1.5rem">Have a project? An idea? Or just want to say hello? I reply within <b style="color:var(--text)">24 hours</b>. Send me a message on WhatsApp or fill out the form.</p>
+        <div class="ci"><div class="ci-ico">📍</div><div><div class="ci-label">Location</div><div class="ci-val">Rawalpindi, Pakistan</div></div></div>
+        <div class="ci"><div class="ci-ico">💬</div><div><div class="ci-label">WhatsApp</div><div class="ci-val">+92 XXX XXXXXXX</div></div></div>
+        <div class="ci"><div class="ci-ico">✉️</div><div><div class="ci-label">Email</div><div class="ci-val">daimali@email.com</div></div></div>
+        <div class="ci"><div class="ci-ico">💻</div><div><div class="ci-label">GitHub</div><div class="ci-val">github.com/muhammaddaimali</div></div></div>
+        <div class="ci"><div class="ci-ico">📸</div><div><div class="ci-label">Instagram</div><div class="ci-val">@muhammaddaimali</div></div></div>
+        <div class="social-row">
+          <button class="sbtn">💻 GitHub</button>
+          <button class="sbtn">📸 Instagram</button>
+          <button class="sbtn">💬 WhatsApp</button>
+          <button class="sbtn">🔗 LinkedIn</button>
+        </div>
+      </div>
+      <div class="fcard">
+        <label class="fl">Your Name</label>
+        <input type="text" class="fi" placeholder="Enter your full name...">
+        <label class="fl">WhatsApp / Email</label>
+        <input type="text" class="fi" placeholder="Your contact details...">
+        <label class="fl">Service Type</label>
+        <select class="fi">
+          <option value="">Select a service...</option>
+          <option>Website Design</option>
+          <option>E-Commerce Store</option>
+          <option>App Development</option>
+          <option>Graphic Design</option>
+          <option>Social Media Handling</option>
+          <option>AI Solutions</option>
+          <option>Website Maintenance</option>
+          <option>Something Else...</option>
+        </select>
+        <label class="fl">Budget Range</label>
+        <select class="fi">
+          <option value="">Select your budget...</option>
+          <option>Rs. 3,000 – 10,000</option>
+          <option>Rs. 10,000 – 25,000</option>
+          <option>Rs. 25,000 – 50,000</option>
+          <option>Rs. 50,000+</option>
+        </select>
+        <label class="fl">Project Details</label>
+        <textarea class="ft" placeholder="Describe your project — what you need, when you need it, any special requirements..."></textarea>
+        <button class="btn-primary" style="width:100%;font-size:0.9rem;padding:13px">Send Message — I'll Contact You on WhatsApp ✓</button>
+      </div>
+    </div>
+  </div>
+  </section>
+  <!-- ==================== FOOTER ==================== -->
+<footer class="layer">
+  <div class="wrap">
+    <div class="foot-inner">
+      <div class="foot-copy">© 2026 <b>MUHAMMAD DAIM ALI</b> · Rawalpindi, Pakistan · All Rights Reserved</div>
+      <div class="foot-links">
+        <a onclick="sc('about')">About</a>
+        <a onclick="sc('projects')">Projects</a>
+        <a onclick="sc('services')">Services</a>
+        <a onclick="sc('contact')">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ==================== SMOOTH SCROLL ==================== */
+function sc(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'})}
+
+/* ==================== SKILL TABS ==================== */
+function showTab(id,btn){
+  document.querySelectorAll('.skill-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ==================== CUSTOM CURSOR ==================== */
+const cursor=document.getElementById('cursor');
+const ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+document.querySelectorAll('button,a,.skcard,.pcard,.svccard,.ci,.cert-item,.ach-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    cursor.style.transform='translate(-50%,-50%) scale(2)';
+    ring.style.width='60px'; ring.style.height='60px';
+  });
+  el.addEventListener('mouseleave',()=>{
+    cursor.style.transform='translate(-50%,-50%) scale(1)';
+    ring.style.width='40px'; ring.style.height='40px';
+  });
+});
+
+/* ==================== 3D CARD TILT ==================== */
+const card3d=document.getElementById('card3d');
+const heroCard=document.getElementById('heroCard');
+if(heroCard){
+  heroCard.addEventListener('mousemove',e=>{
+    const r=heroCard.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-0.5;
+    const y=(e.clientY-r.top)/r.height-0.5;
+    card3d.style.transform=`rotateY(${x*20}deg) rotateX(${-y*15}deg)`;
+  });
+  heroCard.addEventListener('mouseleave',()=>{
+    card3d.style.transform='rotateY(0deg) rotateX(0deg)';
+  });
+}
+
+/* ==================== PARTICLE CANVAS ==================== */
+const canvas=document.getElementById('canvas3d');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight});
+
+const particles=[];
+const COUNT=80;
+for(let i=0;i<COUNT;i++){
+  particles.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*1.5+0.3,
+    vx:(Math.random()-0.5)*0.3,
+    vy:(Math.random()-0.5)*0.3,
+    a:Math.random()*0.5+0.1,
+    hue:Math.random()<0.5?195:280
+  });
+}
+
+function drawParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach((p,i)=>{
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0)p.x=canvas.width; if(p.x>canvas.width)p.x=0;
+    if(p.y<0)p.y=canvas.height; if(p.y>canvas.height)p.y=0;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`hsla(${p.hue},100%,65%,${p.a})`;
+    ctx.fill();
+
+    for(let j=i+1;j<particles.length;j++){
+      const q=particles[j];
+      const dx=p.x-q.x; const dy=p.y-q.y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){
+        ctx.beginPath();
+        ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y);
+        ctx.strokeStyle=`hsla(${p.hue},100%,65%,${0.06*(1-d/120)})`;
+        ctx.lineWidth=0.5;
+        ctx.stroke();
+      }
+    }
+  });
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* ==================== SCROLL REVEAL ==================== */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  /* ==================== NAV ACTIVE STATE ==================== */
+window.addEventListener('scroll',()=>{
+  const nav=document.querySelector('nav');
+  nav.style.background=window.scrollY>50?'rgba(3,5,8,0.9)':'transparent';
+});
+</script>
+</body>
+</html>
