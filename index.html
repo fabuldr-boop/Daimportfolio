@@ -1189,52 +1189,445 @@ footer{
     </div>
   </div>
 </section>
-<!-- ==================== PROJECTS ==================== -->
-<section id="projects" class="sec-alt layer">
+<!-- PROJECTS — UPDATED WITH ALL PROJECTS + MOCK THUMBNAILS -->
+<section id="projects" class="sec-alt">
   <div class="wrap">
-    <div class="sec-label">03 · Projects</div>
-    <div class="sec-title">Featured <span class="g">Work</span></div>
-    <div class="proj-grid reveal">
-      <div class="pcard">
-        <div class="p-num">WEB · 01</div>
-        <div class="p-title">E-Commerce Store</div>
-        <div class="p-desc">Pakistan-based online store with shopping cart, product management, Easypaisa/JazzCash integration, and a fully mobile-friendly design.</div>
-        <div class="p-tags"><span class="ptag ptb">WordPress</span><span class="ptag ptb">WooCommerce</span><span class="ptag ptb">PHP</span></div>
-      </div>
-      <div class="pcard pv">
-        <div class="p-num">DESIGN · 01</div>
-        <div class="p-title">Brand Identity Pack</div>
-        <div class="p-desc">Logo, business card, social media kit, and letterhead — a complete branding package delivered for a local business.</div>
-        <div class="p-tags"><span class="ptag ptp">Figma</span><span class="ptag ptp">Illustrator</span><span class="ptag ptp">Photoshop</span></div>
-      </div>
-      <div class="pcard">
-        <div class="p-num">APP · 01</div>
-        <div class="p-title">Service Booking App</div>
-        <div class="p-desc">A Flutter app for a local service business — featuring booking, payments, and real-time order tracking. Available on both Android & iOS.</div>
-        <div class="p-tags"><span class="ptag ptb">Flutter</span><span class="ptag ptb">Firebase</span><span class="ptag ptb">Dart</span></div>
-      </div>
-      <div class="pcard pk">
-        <div class="p-num">SOCIAL · 01</div>
-        <div class="p-title">Social Media Campaign</div>
-        <div class="p-desc">A full 3-month Instagram management campaign — content calendar, graphics, reels, and 5x growth in followers.</div>
-        <div class="p-tags"><span class="ptag ptk">Instagram</span><span class="ptag ptk">Canva</span><span class="ptag ptk">Meta Ads</span></div>
-      </div>
-      <div class="pcard">
-        <div class="p-num">WEB · 02</div>
-        <div class="p-title">Portfolio Website</div>
-        <div class="p-desc">Custom dark futuristic portfolio for a freelancer — animations, smooth scroll, contact form, blazing fast.</div>
-        <div class="p-tags"><span class="ptag ptb">React</span><span class="ptag ptb">Tailwind</span><span class="ptag ptb">Vercel</span></div>
-      </div>
-      <div class="pcard pv">
-        <div class="p-num">AI · 01</div>
-        <div class="p-title">AI Content Bot</div>
-        <div class="p-desc">An automation tool built with Python + ChatGPT API that generates daily social media captions, posts, and content ideas.</div>
-        <div class="p-tags"><span class="ptag ptp">Python</span><span class="ptag ptp">OpenAI API</span><span class="ptag ptp">Automation</span></div>
-      </div>
+    <div class="s-label">// 03 · Projects</div>
+    <div class="s-bar"></div>
+    <div class="s-title">Featured <span class="grad-text">Work</span></div>
+
+    <div class="proj-filter">
+      <button class="pfbtn active" onclick="filterProj('all',this)">🔥 All Projects</button>
+      <button class="pfbtn" onclick="filterProj('web',this)">🌐 Web</button>
+      <button class="pfbtn" onclick="filterProj('app',this)">📱 App</button>
+      <button class="pfbtn" onclick="filterProj('design',this)">🎨 Design</button>
+      <button class="pfbtn" onclick="filterProj('ai',this)">🤖 AI</button>
+      <button class="pfbtn" onclick="filterProj('game',this)">🎮 Game</button>
     </div>
+
+    <div class="proj-grid" id="projGrid">
+
+      <!-- 1. WhatsApp UI Clone -->
+      <div class="pcard web" data-cat="app">
+        <div class="p-thumb thumb-app">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#25D366,#128C7E);opacity:0.2"></div>
+          <span class="p-thumb-label badge-app">APP</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#25D366"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><div class="mock-avatar" style="background:linear-gradient(135deg,#25D366,#128C7E)"></div><div style="flex:1"><div class="mock-line" style="width:60%;margin-bottom:3px"></div><div class="mock-line" style="width:40%;height:4px"></div></div></div>
+              <div class="mock-chat-bubble" style="width:70%"></div>
+              <div class="mock-chat-bubble right"></div>
+              <div class="mock-chat-bubble" style="width:55%"></div>
+              <div class="mock-chat-bubble right" style="height:16px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">APP — 01 ·Muhammad Daim Ali</div>
+          <div class="p-title">WhatsApp UI Clone</div>
+          <div class="p-desc">Feature-rich messaging app clone — chat list, dark theme, smooth animations, aur real-time feel. Complete UI recreation.</div>
+          <div class="p-tags"><span class="ptag ptag-pk">Flutter</span><span class="ptag ptag-pk">Dart</span><span class="ptag ptag-p">animations</span><span class="ptag ptag-g">dark-theme</span></div>
+        </div>
+      </div>
+
+      <!-- 2. Student DB Manager -->
+      <div class="pcard web" data-cat="web">
+        <div class="p-thumb thumb-web">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#00d4ff,#8b5cf6);opacity:0.15"></div>
+          <span class="p-thumb-label badge-web">WEB</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#00d4ff"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div class="mock-line accent" style="width:70%"></div>
+              <div class="mock-stat-row">
+                <div class="mock-stat"></div><div class="mock-stat"></div><div class="mock-stat"></div>
+              </div>
+              <div class="mock-line" style="width:100%"></div>
+              <div class="mock-line" style="width:85%"></div>
+              <div class="mock-line" style="width:90%"></div>
+              <div class="mock-line" style="width:75%"></div>
+              <div class="mock-line accent2" style="width:40%;height:12px;border-radius:6px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">WEB — 01 · Muhammad Daim Ali</div>
+          <div class="p-title">Student DB Manager</div>
+          <div class="p-desc">Complete student management system — SQLite database, search functionality, aur data export. Admin panel with full CRUD.</div>
+          <div class="p-tags"><span class="ptag ptag-b">React</span><span class="ptag ptag-b">SQLite</span><span class="ptag ptag-b">Node.js</span><span class="ptag ptag-p">admin-panel</span></div>
+        </div>
+      </div>
+
+      <!-- 3. Portfolio Website -->
+      <div class="pcard web" data-cat="web">
+        <div class="p-thumb thumb-web">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#f59e0b,#ef4444);opacity:0.15"></div>
+          <span class="p-thumb-label badge-web">WEB</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#f59e0b"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                <div class="mock-line" style="width:30%;height:8px;border-radius:4px;background:linear-gradient(135deg,#f59e0b,#ef4444);opacity:0.7"></div>
+                <div style="display:flex;gap:4px"><div class="mock-line" style="width:20px;height:5px"></div><div class="mock-line" style="width:20px;height:5px"></div><div class="mock-line" style="width:20px;height:5px"></div></div>
+              </div>
+              <div class="mock-line accent" style="width:80%;height:10px"></div>
+              <div class="mock-line" style="width:95%"></div>
+              <div class="mock-line" style="width:70%"></div>
+              <div class="mock-card-row">
+                <div class="mock-mini"></div><div class="mock-mini"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">WEB — 02 · Muhammad Daim Ali</div>
+          <div class="p-title">Portfolio Website</div>
+          <div class="p-desc">Modern responsive portfolio — dark animations, interactive elements, aur skills showcase. Custom theme with smooth transitions.</div>
+          <div class="p-tags"><span class="ptag ptag-b">React</span><span class="ptag ptag-b">Tailwind</span><span class="ptag ptag-b">Framer Motion</span><span class="ptag ptag-p">Vercel</span></div>
+        </div>
+      </div>
+
+      <!-- 4. Weather App -->
+      <div class="pcard web" data-cat="web">
+        <div class="p-thumb thumb-web">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#3b82f6,#06b6d4);opacity:0.2"></div>
+          <span class="p-thumb-label badge-web">WEB</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#3b82f6"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div style="text-align:center;margin-bottom:4px"><div class="mock-line" style="width:50%;margin:0 auto 4px;height:8px"></div></div>
+              <div style="display:flex;justify-content:center;align-items:center;padding:6px 0">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#f97316);opacity:0.7;box-shadow:0 0 12px rgba(251,191,36,0.4)"></div>
+              </div>
+              <div class="mock-line accent" style="width:60%;margin:4px auto"></div>
+              <div class="mock-stat-row">
+                <div class="mock-stat"></div><div class="mock-stat"></div><div class="mock-stat"></div>
+              </div>
+              <div class="mock-chart"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">WEB — 03 · Muhammad Daim Ali</div>
+          <div class="p-title">Weather App</div>
+          <div class="p-desc">Real-time weather application with location detection, API integration, aur 7-day forecast. Beautiful weather condition animations.</div>
+          <div class="p-tags"><span class="ptag ptag-b">React</span><span class="ptag ptag-b">OpenWeather API</span><span class="ptag ptag-b">Axios</span><span class="ptag ptag-p">location</span></div>
+        </div>
+      </div>
+
+      <!-- 5. E-Commerce App -->
+      <div class="pcard web" data-cat="web">
+        <div class="p-thumb thumb-web">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#10b981,#059669);opacity:0.15"></div>
+          <span class="p-thumb-label badge-web">WEB</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#10b981"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div class="mock-line accent" style="width:55%;height:7px"></div>
+              <div class="mock-card-row">
+                <div class="mock-mini" style="height:45px"></div>
+                <div class="mock-mini" style="height:45px"></div>
+                <div class="mock-mini" style="height:45px"></div>
+              </div>
+              <div class="mock-line" style="width:80%"></div>
+              <div class="mock-line" style="width:60%"></div>
+              <div style="display:flex;gap:5px;margin-top:2px">
+                <div class="mock-line" style="width:35%;height:14px;border-radius:6px;background:linear-gradient(135deg,#10b981,#059669);opacity:0.6"></div>
+                <div class="mock-line" style="width:25%;height:14px;border-radius:6px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">WEB — 04 · Muhammad Daim Ali</div>
+          <div class="p-title">E-Commerce App</div>
+          <div class="p-desc">Full-featured online store — product catalog, checkout process, aur state management. Pakistani payment gateway ready.</div>
+          <div class="p-tags"><span class="ptag ptag-b">React</span><span class="ptag ptag-g">Cart</span><span class="ptag ptag-b">Redux</span><span class="ptag ptag-p">WooCommerce</span></div>
+        </div>
+      </div>
+
+      <!-- 6. BMI Calculator -->
+      <div class="pcard app" data-cat="app">
+        <div class="p-thumb thumb-app">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);opacity:0.18"></div>
+          <span class="p-thumb-label badge-app">APP</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#8b5cf6"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div class="mock-line" style="width:60%;margin:0 auto 6px"></div>
+              <div style="display:flex;justify-content:center;margin:4px 0">
+                <div style="width:52px;height:52px;border-radius:50%;border:3px solid;border-color:rgba(139,92,246,0.5);display:flex;align-items:center;justify-content:center">
+                  <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#ec4899);opacity:0.7"></div>
+                </div>
+              </div>
+              <div class="mock-line accent2" style="width:80%;margin:4px auto;height:4px"></div>
+              <div class="mock-stat-row">
+                <div class="mock-stat"></div><div class="mock-stat"></div>
+              </div>
+              <div class="mock-line" style="width:50%;height:14px;border-radius:6px;background:linear-gradient(135deg,#8b5cf6,#ec4899);opacity:0.5;margin:4px auto 0"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">APP — 02 · Muhammad Daim Ali</div>
+          <div class="p-title">BMI Calculator</div>
+          <div class="p-desc">Health tracking app with BMI calculation, personalized health recommendations, aur beautiful animated results display.</div>
+          <div class="p-tags"><span class="ptag ptag-pk">Flutter</span><span class="ptag ptag-p">health</span><span class="ptag ptag-pk">animations</span><span class="ptag ptag-p">calculator</span></div>
+        </div>
+      </div>
+
+      <!-- 7. CRUD Application -->
+      <div class="pcard web" data-cat="web">
+        <div class="p-thumb thumb-web">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#f59e0b,#d97706);opacity:0.15"></div>
+          <span class="p-thumb-label badge-web">WEB</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#f59e0b"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div class="mock-line" style="width:40%;height:7px"></div>
+                <div class="mock-line" style="width:20%;height:12px;border-radius:5px;background:linear-gradient(135deg,#00d4ff,#8b5cf6);opacity:0.6"></div>
+              </div>
+              <div class="mock-line" style="width:100%"></div>
+              <div class="mock-line" style="width:100%"></div>
+              <div class="mock-line" style="width:100%"></div>
+              <div class="mock-line" style="width:95%"></div>
+              <div style="display:flex;gap:4px">
+                <div class="mock-line" style="width:20%;height:12px;border-radius:5px;background:rgba(0,212,255,0.3)"></div>
+                <div class="mock-line" style="width:20%;height:12px;border-radius:5px;background:rgba(239,68,68,0.3)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">WEB — 05 · Muhammad Daim Ali</div>
+          <div class="p-title">CRUD Application</div>
+          <div class="p-desc">Complete Create, Read, Update, Delete system — SQLite integration, form validation, aur real-time data updates.</div>
+          <div class="p-tags"><span class="ptag ptag-b">React</span><span class="ptag ptag-b">SQLite</span><span class="ptag ptag-b">Express</span><span class="ptag ptag-p">REST API</span></div>
+        </div>
+      </div>
+
+      <!-- 8. Photography Business Site -->
+      <div class="pcard design" data-cat="design">
+        <div class="p-thumb thumb-design">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#78716c,#44403c);opacity:0.3"></div>
+          <span class="p-thumb-label badge-design">DESIGN</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#a78bfa"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content" style="padding:6px">
+              <div class="mock-photo-grid">
+                <div class="mock-photo" style="background:rgba(139,92,246,0.15)"></div>
+                <div class="mock-photo" style="background:rgba(236,72,153,0.15)"></div>
+                <div class="mock-photo" style="background:rgba(0,212,255,0.1)"></div>
+                <div class="mock-photo" style="background:rgba(251,191,36,0.1)"></div>
+              </div>
+              <div class="mock-line accent2" style="width:70%;margin:4px auto"></div>
+              <div class="mock-line" style="width:90%"></div>
+              <div class="mock-line" style="width:60%;height:12px;border-radius:5px;background:linear-gradient(135deg,#8b5cf6,#ec4899);opacity:0.5;margin:3px auto 0"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">DESIGN — 01 · Muhammad Daim Ali</div>
+          <div class="p-title">Photography Business Site</div>
+          <div class="p-desc">Elegant photography portfolio — gallery showcase, session booking, aur responsive design. Client-facing professional site.</div>
+          <div class="p-tags"><span class="ptag ptag-p">Figma</span><span class="ptag ptag-b">React</span><span class="ptag ptag-pk">Gallery</span><span class="ptag ptag-p">booking</span></div>
+        </div>
+      </div>
+
+      <!-- 9. Number Hunter Game -->
+      <div class="pcard game" data-cat="game">
+        <div class="p-thumb thumb-game">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#fbbf24,#f97316);opacity:0.2"></div>
+          <span class="p-thumb-label badge-game">GAME</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#10b981"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div style="display:flex;justify-content:space-between"><div class="mock-line" style="width:30%"></div><div class="mock-line" style="width:25%;background:rgba(251,191,36,0.4)"></div></div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:4px 0">
+                <div style="height:18px;border-radius:4px;background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.2)"></div>
+                <div style="height:18px;border-radius:4px;background:rgba(0,212,255,0.2);border:1px solid rgba(0,212,255,0.3)"></div>
+                <div style="height:18px;border-radius:4px;background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.2)"></div>
+                <div style="height:18px;border-radius:4px;background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.2)"></div>
+                <div style="height:18px;border-radius:4px;background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.2)"></div>
+                <div style="height:18px;border-radius:4px;background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.2)"></div>
+                <div style="height:18px;border-radius:4px;background:rgba(249,115,22,0.2);border:1px solid rgba(249,115,22,0.3)"></div>
+                <div style="height:18px;border-radius:4px;background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.2)"></div>
+              </div>
+              <div class="mock-line" style="width:60%;margin:2px auto;height:4px;background:linear-gradient(135deg,#fbbf24,#f97316);opacity:0.6"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">GAME — 01 · Muhammad Daim Ali</div>
+          <div class="p-title">Number Hunter Game</div>
+          <div class="p-desc">Interactive browser game — find numbers in a grid before time runs out. High score tracking, levels, aur leaderboard system.</div>
+          <div class="p-tags"><span class="ptag ptag-y">JavaScript</span><span class="ptag ptag-y">HTML5</span><span class="ptag ptag-y">CSS3</span><span class="ptag ptag-b">localStorage</span></div>
+        </div>
+      </div>
+
+      <!-- 10. E-Commerce Store (original) -->
+      <div class="pcard web" data-cat="web">
+        <div class="p-thumb thumb-web">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#00d4ff,#0284c7);opacity:0.15"></div>
+          <span class="p-thumb-label badge-web">WEB</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#00d4ff"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div class="mock-line accent" style="width:65%"></div>
+              <div class="mock-card-row">
+                <div class="mock-mini" style="height:38px;background:rgba(0,212,255,0.08)"></div>
+                <div class="mock-mini" style="height:38px"></div>
+              </div>
+              <div class="mock-line" style="width:90%"></div>
+              <div class="mock-line" style="width:75%"></div>
+              <div class="mock-line" style="width:40%;height:14px;border-radius:6px;background:linear-gradient(135deg,#00d4ff,#8b5cf6);opacity:0.6"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">WEB — 06</div>
+          <div class="p-title">Pakistani E-Commerce Store</div>
+          <div class="p-desc">Pakistan-based online store — cart, product management, Easypaisa/JazzCash integration, aur mobile-friendly design.</div>
+          <div class="p-tags"><span class="ptag ptag-b">WordPress</span><span class="ptag ptag-b">WooCommerce</span><span class="ptag ptag-b">PHP</span></div>
+        </div>
+      </div>
+
+      <!-- 11. Brand Identity Pack -->
+      <div class="pcard design" data-cat="design">
+        <div class="p-thumb thumb-design">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#8b5cf6,#ec4899);opacity:0.15"></div>
+          <span class="p-thumb-label badge-design">DESIGN</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#ec4899"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#8b5cf6"></div></div>
+            <div class="mock-content">
+              <div style="display:flex;justify-content:center;margin-bottom:6px">
+                <div style="width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,#8b5cf6,#ec4899);opacity:0.7;display:flex;align-items:center;justify-content:center"><div style="width:20px;height:20px;border-radius:4px;background:rgba(255,255,255,0.3)"></div></div>
+              </div>
+              <div class="mock-line accent2" style="width:70%;margin:0 auto 4px"></div>
+              <div class="mock-photo-grid">
+                <div class="mock-photo" style="background:rgba(139,92,246,0.2)"></div>
+                <div class="mock-photo" style="background:rgba(236,72,153,0.15)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">DESIGN — 02</div>
+          <div class="p-title">Brand Identity Pack</div>
+          <div class="p-desc">Logo, visiting card, social media kit, aur letterhead — complete brand package for a local business.</div>
+          <div class="p-tags"><span class="ptag ptag-p">Figma</span><span class="ptag ptag-p">Illustrator</span><span class="ptag ptag-pk">Photoshop</span></div>
+        </div>
+      </div>
+
+      <!-- 12. Service Booking App -->
+      <div class="pcard app" data-cat="app">
+        <div class="p-thumb thumb-app">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#ec4899,#f97316);opacity:0.15"></div>
+          <span class="p-thumb-label badge-app">APP</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#ec4899"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div class="mock-line" style="width:60%;height:7px"></div>
+              <div class="mock-card-row">
+                <div class="mock-mini" style="background:rgba(236,72,153,0.1)"></div>
+                <div class="mock-mini"></div>
+              </div>
+              <div class="mock-line" style="width:80%"></div>
+              <div class="mock-line" style="width:65%"></div>
+              <div class="mock-line" style="width:45%;height:14px;border-radius:6px;background:linear-gradient(135deg,#ec4899,#f97316);opacity:0.6"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">APP — 03</div>
+          <div class="p-title">Service Booking App</div>
+          <div class="p-desc">Flutter app — booking, payments, aur real-time order tracking. Android & iOS dono pe kaam karta hai.</div>
+          <div class="p-tags"><span class="ptag ptag-pk">Flutter</span><span class="ptag ptag-pk">Firebase</span><span class="ptag ptag-pk">Dart</span></div>
+        </div>
+      </div>
+
+      <!-- 13. Social Media Campaign -->
+      <div class="pcard design" data-cat="design">
+        <div class="p-thumb thumb-design">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#f472b6,#fb923c);opacity:0.15"></div>
+          <span class="p-thumb-label badge-design">SOCIAL</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#f472b6"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#fb923c"></div></div>
+            <div class="mock-content">
+              <div class="mock-stat-row">
+                <div class="mock-stat" style="background:rgba(244,114,182,0.1)"></div>
+                <div class="mock-stat" style="background:rgba(251,146,60,0.1)"></div>
+                <div class="mock-stat" style="background:rgba(139,92,246,0.1)"></div>
+              </div>
+              <div class="mock-chart" style="background:rgba(244,114,182,0.05)"></div>
+              <div class="mock-line accent2" style="width:55%"></div>
+              <div class="mock-line" style="width:80%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">SOCIAL — 01</div>
+          <div class="p-title">Social Media Campaign</div>
+          <div class="p-desc">3 mahine ka full Instagram management — content calendar, graphics, reels, aur 5x follower growth achieved.</div>
+          <div class="p-tags"><span class="ptag ptag-pk">Instagram</span><span class="ptag ptag-pk">Canva</span><span class="ptag ptag-pk">Meta Ads</span></div>
+        </div>
+      </div>
+
+      <!-- 14. AI Content Bot -->
+      <div class="pcard ai" data-cat="ai">
+        <div class="p-thumb thumb-ai">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#4ade80,#00d4ff);opacity:0.12"></div>
+          <span class="p-thumb-label badge-ai">AI</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#4ade80"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div class="mock-line" style="width:50%;background:rgba(74,222,128,0.4);height:7px"></div>
+              <div class="mock-chat-bubble" style="background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.2);width:85%"></div>
+              <div class="mock-chat-bubble right" style="background:rgba(0,212,255,0.1);border-color:rgba(0,212,255,0.2)"></div>
+              <div class="mock-chat-bubble" style="background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.2);width:70%;height:16px"></div>
+              <div class="mock-line" style="width:40%;height:12px;border-radius:5px;background:linear-gradient(135deg,#4ade80,#00d4ff);opacity:0.5"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">AI — 01</div>
+          <div class="p-title">AI Content Bot</div>
+          <div class="p-desc">Python + ChatGPT API — automation tool jo daily social media captions, posts, aur content ideas generate karta hai.</div>
+          <div class="p-tags"><span class="ptag ptag-g">Python</span><span class="ptag ptag-g">OpenAI API</span><span class="ptag ptag-b">Automation</span></div>
+        </div>
+      </div>
+
+      <!-- 15. AI Chatbot Integration -->
+      <div class="pcard ai" data-cat="ai">
+        <div class="p-thumb thumb-ai">
+          <div class="p-thumb-bg" style="background:linear-gradient(135deg,#06b6d4,#4ade80);opacity:0.12"></div>
+          <span class="p-thumb-label badge-ai">AI</span>
+          <div class="mock-ui">
+            <div class="mock-bar"><div class="mock-dot" style="background:#06b6d4"></div><div class="mock-dot" style="background:#fbbf24"></div><div class="mock-dot" style="background:#f87171"></div></div>
+            <div class="mock-content">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+                <div style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#4ade80,#00d4ff);opacity:0.7"></div>
+                <div class="mock-line" style="width:40%"></div>
+              </div>
+              <div class="mock-chat-bubble" style="background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.25);width:90%;height:14px"></div>
+              <div class="mock-chat-bubble right" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.2);height:10px"></div>
+              <div class="mock-chat-bubble" style="background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.25);width:75%;height:18px"></div>
+            </div>
+          </div>
+        </div>
+        <div class="p-body">
+          <div class="p-num">AI — 02</div>
+          <div class="p-title">AI Chatbot Integration</div>
+          <div class="p-desc">Business website mein AI chatbot — customer queries handle karta hai, FAQs answer karta hai, aur leads capture karta hai 24/7.</div>
+          <div class="p-tags"><span class="ptag ptag-g">ChatGPT API</span><span class="ptag ptag-b">JavaScript</span><span class="ptag ptag-g">Webhooks</span></div>
+        </div>
+      </div>
+
+    </div><!-- end proj-grid -->
   </div>
 </section>
-
 <!-- ==================== CERTS ==================== -->
 <section id="certs" class="layer">
   <div class="wrap">
